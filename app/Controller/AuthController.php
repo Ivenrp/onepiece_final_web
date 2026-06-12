@@ -64,11 +64,10 @@ class AuthController {
             $this->authService->register($username, $email, $password);
             
             // Auto login after register
-            $user = $this->authService->login($username, $password);
+            $user = $this->authService->login($_POST['username'], $_POST['password']);
             $_SESSION['user_id'] = $user->id;
             $_SESSION['username'] = $user->username;
-
-            header("Location: /");
+            header("Location: /dashboard");
             exit;
         } catch (AppException $e) {
             $error = $e->getMessage();
@@ -128,6 +127,27 @@ class AuthController {
             $email = $_POST['email'] ?? '';
             $token = $_POST['token'] ?? '';
             require_once __DIR__ . '/../View/auth/reset_password.php';
+        }
+    }
+
+    public function changeProfilePassword() {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                throw new AppException("Invalid request method.");
+            }
+
+            $userId = (int) ($_SESSION['user_id'] ?? 0);
+            $currentPassword = $_POST['current_password'] ?? '';
+            $newPassword = $_POST['new_password'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
+
+            $this->authService->changePassword($userId, $currentPassword, $newPassword, $confirmPassword);
+
+            $success = "Password updated successfully.";
+            require_once __DIR__ . '/../View/home/profile.php';
+        } catch (AppException $e) {
+            $error = $e->getMessage();
+            require_once __DIR__ . '/../View/home/profile.php';
         }
     }
 }

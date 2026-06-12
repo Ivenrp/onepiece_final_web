@@ -1,29 +1,54 @@
 <?php require_once __DIR__ . '/../layout/header.php'; ?>
 
-<div style="position: relative; overflow: hidden; text-align: center; padding: 60px 20px; min-height: 360px; background: linear-gradient(135deg, rgba(30, 30, 30, 0.88), rgba(66, 66, 66, 0.78)), url('/images/backgrounds/luffy.png') center/cover no-repeat; color: white; border-radius: 10px; margin-bottom: 40px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
-    <h1 style="font-size: 3.5rem; margin-bottom: 20px; color: var(--primary-color);">Welcome to Grand Line</h1>
-    <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px auto; color: #ddd;">The ultimate database for One Piece characters. Discover their bounties, devil fruits, and epic journeys across the seas.</p>
+<div class="hero-home">
+    <img src="/images/backgrounds/hero-home.png" alt="Hero Home Image" class="hero-image">
+</div>
 
-    <div>
-        <a href="/characters" class="btn" style="font-size: 1.2rem; padding: 15px 30px;">Explore Characters</a>
-        <?php if (!isset($_SESSION['user_id'])): ?>
-            <a href="/register" class="btn btn-secondary" style="font-size: 1.2rem; padding: 15px 30px; margin-left: 15px;">Join the Crew</a>
-        <?php endif; ?>
+<div class="cards-home">
+    <div class="cards-container">
+        <div class="cards-content">
+            <h2 class="cards-title">Curious about the <span class="highlight">world</span> beyond? Set sail with us.</h2>
+            <p class="cards-description">Explore famous crews, legendary bounties, and unforgettable journeys across the seas</p>
+            <a href="/characters" class="cards-btn">
+                <span>Explore Crew</span>
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </span>
+            </a>
+        </div>
+        <div class="cards-visual">
+            <img src="/images/elements/3-cards.png" alt="One Piece Cards Display" class="cards-img">
+        </div>
     </div>
 </div>
 
-<div class="grid" style="margin-top: 40px;">
-    <div class="card" style="text-align: center; padding: 30px;">
-        <h3 style="color: var(--primary-color);">Comprehensive Data</h3>
-        <p>Explore detailed information about abilities, devil fruits, and character arcs.</p>
+<div class="crewmate-section">
+    <div class="crewmate-header">
+        <div class="divider-container">
+            <span class="divider-line"></span>
+            <h2 class="crewmate-title">CHOOSE YOUR <span class="highlight">CREWMATE</span></h2>
+            <span class="divider-line"></span>
+        </div>
+        <p class="crewmate-subtitle">The sea is vast, but no one sails alone.</p>
     </div>
-    <div class="card" style="text-align: center; padding: 30px;">
-        <h3 style="color: var(--primary-color);">Bounty Tracking</h3>
-        <p>Keep track of the highest bounties in the New World and beyond.</p>
+    <div class="crewmate-visual">
+        <img src="/images/elements/crewmate.png" alt="Crewmates Display" class="crewmate-img">
     </div>
-    <div class="card" style="text-align: center; padding: 30px;">
-        <h3 style="color: var(--primary-color);">Community Driven</h3>
-        <p>Log in to add and manage your favorite characters directly.</p>
+</div>
+
+<div class="grandline-home-section">
+    <div class="grandline-header">
+        <div class="divider-container">
+            <span class="divider-line"></span>
+            <h2 class="grandline-title">THE GRAND <span class="highlight">LINE</span></h2>
+            <span class="divider-line"></span>
+        </div>
+        <p class="grandline-subtitle">Relive the adventure that changed the seas.</p>
+    </div>
+    <div class="grandline-visual">
+        <img src="/images/elements/grandline.png" alt="Grand Line Map" class="grandline-img">
     </div>
 </div>
 

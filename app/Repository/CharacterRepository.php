@@ -30,6 +30,79 @@ class CharacterRepository {
         return $characters;
     }
 
+    public function findWithFilters(array $filters, int $limit, int $offset): array {
+        $sql = "SELECT * FROM characters WHERE 1=1";
+        $params = [];
+
+        if (!empty($filters['search'])) {
+            $sql .= " AND name LIKE :search";
+            $params[':search'] = '%' . $filters['search'] . '%';
+        }
+
+        if (!empty($filters['fruit'])) {
+            if ($filters['fruit'] === 'yes') {
+                $sql .= " AND devil_fruit != 'None' AND devil_fruit IS NOT NULL";
+            } elseif ($filters['fruit'] === 'no') {
+                $sql .= " AND (devil_fruit = 'None' OR devil_fruit IS NULL)";
+            }
+        }
+
+        if (!empty($filters['sort'])) {
+            if ($filters['sort'] === 'bounty_desc') {
+                $sql .= " ORDER BY bounty DESC";
+            } elseif ($filters['sort'] === 'bounty_asc') {
+                $sql .= " ORDER BY bounty ASC";
+            } else {
+                $sql .= " ORDER BY id DESC";
+            }
+        } else {
+            $sql .= " ORDER BY id DESC";
+        }
+
+        $sql .= " LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->db->prepare($sql);
+        
+        foreach ($params as $key => &$val) {
+            $stmt->bindParam($key, $val);
+        }
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $characters = [];
+        while ($row = $stmt->fetch()) {
+            $characters[] = $this->mapRowToCharacter($row);
+        }
+        return $characters;
+    }
+
+    public function countWithFilters(array $filters): int {
+        $sql = "SELECT COUNT(*) FROM characters WHERE 1=1";
+        $params = [];
+
+        if (!empty($filters['search'])) {
+            $sql .= " AND name LIKE :search";
+            $params[':search'] = '%' . $filters['search'] . '%';
+        }
+
+        if (!empty($filters['fruit'])) {
+            if ($filters['fruit'] === 'yes') {
+                $sql .= " AND devil_fruit != 'None' AND devil_fruit IS NOT NULL";
+            } elseif ($filters['fruit'] === 'no') {
+                $sql .= " AND (devil_fruit = 'None' OR devil_fruit IS NULL)";
+            }
+        }
+
+        $stmt = $this->db->prepare($sql);
+        foreach ($params as $key => &$val) {
+            $stmt->bindParam($key, $val);
+        }
+        $stmt->execute();
+        
+        return (int) $stmt->fetchColumn();
+    }
+
     public function findById(int $id): ?Character {
         $query = "SELECT * FROM characters WHERE id = :id";
         $stmt = $this->db->prepare($query);
@@ -70,37 +143,39 @@ class CharacterRepository {
     }
 
     public function save(Character $character): int {
-        $query = "INSERT INTO characters (name, epithet, bounty, devil_fruit, photo_url, general_information) 
-                  VALUES (:name, :epithet, :bounty, :devil_fruit, :photo_url, :general_information)";
+        $query = "INSERT INTO characters (name, role, epithet, bounty, devil_fruit, photo_url, general_information) 
+                  VALUES (:name, :role, :epithet, :bounty, :devil_fruit, :photo_url, :general_information)";
         $stmt = $this->db->prepare($query);
         
-        $stmt->bindParam(':name', $character->name);
-        $stmt->bindParam(':epithet', $character->epithet);
-        $stmt->bindParam(':bounty', $character->bounty);
-        $stmt->bindParam(':devil_fruit', $character->devil_fruit);
-        $stmt->bindParam(':photo_url', $character->photo_url);
-        $stmt->bindParam(':general_information', $character->general_information);
-
-        $stmt->execute();
+        $stmt->execute([
+            ':name' => $character->name,
+            ':role' => $character->role ?? 'Unknown',
+            ':epithet' => $character->epithet,
+            ':bounty' => $character->bounty,
+            ':devil_fruit' => $character->devil_fruit,
+            ':photo_url' => $character->photo_url,
+            ':general_information' => $character->general_information
+        ]);
         return (int)$this->db->lastInsertId();
     }
 
     public function update(Character $character): bool {
         $query = "UPDATE characters 
-                  SET name = :name, epithet = :epithet, bounty = :bounty, 
+                  SET name = :name, role = :role, epithet = :epithet, bounty = :bounty, 
                       devil_fruit = :devil_fruit, photo_url = :photo_url, general_information = :general_information
                   WHERE id = :id";
         $stmt = $this->db->prepare($query);
         
-        $stmt->bindParam(':name', $character->name);
-        $stmt->bindParam(':epithet', $character->epithet);
-        $stmt->bindParam(':bounty', $character->bounty);
-        $stmt->bindParam(':devil_fruit', $character->devil_fruit);
-        $stmt->bindParam(':photo_url', $character->photo_url);
-        $stmt->bindParam(':general_information', $character->general_information);
-        $stmt->bindParam(':id', $character->id);
-
-        return $stmt->execute();
+        return $stmt->execute([
+            ':id' => $character->id,
+            ':name' => $character->name,
+            ':role' => $character->role ?? 'Unknown',
+            ':epithet' => $character->epithet,
+            ':bounty' => $character->bounty,
+            ':devil_fruit' => $character->devil_fruit,
+            ':photo_url' => $character->photo_url,
+            ':general_information' => $character->general_information
+        ]);
     }
 
     public function saveArcs(int $charId, array $arcs): void {
@@ -161,7 +236,10 @@ class CharacterRepository {
             $row['photo_url'],
             $row['general_information']
         );
-        $char->id = $row['id'];
+        $char->id = (int)$row['id'];
+        $char->name = $row['name'];
+        $char->role = $row['role'] ?? 'Unknown';
+        $char->epithet = $row['epithet'] ?? null;
         $char->created_at = $row['created_at'];
         $char->updated_at = $row['updated_at'];
         return $char;

@@ -51,7 +51,7 @@
                             <?php if ($isLoggedIn): ?>
                                 <span class="mobile-profile-name"><?= htmlspecialchars($_SESSION['username']) ?></span>
                                 <a href="/profile">Profile</a>
-                                <a href="/characters">Management Character</a>
+                                <a href="/dashboard">Dashboard</a>
                                 <a href="/logout" class="logout-link">Logout</a>
                             <?php else: ?>
                                 <a href="/login">Login</a>
@@ -80,7 +80,7 @@
                             <div class="profile-dropdown">
                                 <span class="profile-name"><?= htmlspecialchars($_SESSION['username']) ?></span>
                                 <a href="/profile">Profile</a>
-                                <a href="/characters">Management Character</a>
+                                <a href="/dashboard">Management Character</a>
                                 <a href="/logout" class="logout-link">Logout</a>
                             </div>
                         </details>

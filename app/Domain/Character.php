@@ -5,6 +5,7 @@ namespace App\Domain;
 class Character {
     public ?int $id;
     public string $name;
+    public ?string $role;
     public ?string $epithet;
     public ?int $bounty;
     public ?string $devil_fruit;

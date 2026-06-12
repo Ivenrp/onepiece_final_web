@@ -1,0 +1,328 @@
+/* DETAIL PAGE HERO */
+.detail-hero {
+    position: relative;
+    /* background-color: #d1bba4; Parchment base color */
+    /* Uncomment below to use the parchment background image */
+    background-image: url('/images/backgrounds/bg-parchment.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    color: #3b2a1a;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    min-height: 350px;
+    margin-bottom: 50px;
+
+    /* CSS jagged edges fallback if not using image */
+    /* border: 10px solid transparent; */
+    /* border-image: url('/images/elements/torn-edge.png') 30 round; */
+}
+
+/* Fallback CSS jagged edges (pure CSS, optional) */
+.detail-hero.css-parchment {
+    background-image: none;
+    clip-path: polygon(0% 5%, 5% 0%, 95% 0%, 100% 5%,
+            100% 95%, 95% 100%, 5% 100%, 0% 95%,
+            2% 50%, 0% 5%);
+    border: 3px solid #8e7151;
+}
+
+.hero-info {
+    flex: 2;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid rgba(59, 42, 26, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.hero-df {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.hero-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 20px;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    border-top: 2px solid rgba(59, 42, 26, 0.3);
+    padding-top: 15px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    text-transform: lowercase;
+    color: #6a4f3b;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.hero-image {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hero-image img {
+    max-width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+    filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.5));
+}
+
+/* SECTION TITLES */
+.section-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    display: inline-block;
+    color: #000;
+    background-color: var(--accent-color);
+    padding: 5px 20px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: lowercase;
+    position: relative;
+    clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%, 5% 50%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.more-link {
+    color: var(--light-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.more-link:hover {
+    opacity: 1;
+}
+
+/* HORIZONTAL SCROLL CONTAINERS */
+.horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) var(--dark-color);
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+    background: var(--dark-color);
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 4px;
+}
+
+.scroll-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+}
+
+/* ABILITIES SECTION CARDS */
+.ability-card {
+    display: flex;
+    width: 450px;
+    background-color: #242424;
+    border: 2px solid #5A4A42;
+    border-radius: 8px;
+    padding: 6px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.ability-card:hover {
+    transform: translateY(-5px);
+}
+
+.ability-inner {
+    display: flex;
+    width: 100%;
+    border: 1px solid #5A4A42;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 160px;
+}
+
+.ability-img-container {
+    flex: 0 0 160px;
+    position: relative;
+}
+
+.ability-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ability-content {
+    flex: 1;
+    padding: 15px;
+    background-color: #1e1e1e;
+    color: #e2d1c3;
+    display: flex;
+    flex-direction: column;
+}
+
+.ability-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.ability-desc {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.ability-skull {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 35px;
+    height: 35px;
+    opacity: 0.7;
+}
+
+/* MODAL / POPUP */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #242424;
+    border: 3px solid var(--accent-color);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    color: var(--light-color);
+    padding: 30px;
+    position: relative;
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: var(--light-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.modal-body img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    border: 2px solid #5A4A42;
+}
+
+.modal-body h2 {
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .ability-card {
+        width: 300px;
+    }
+
+    .ability-inner {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .ability-img-container {
+        height: 150px;
+        flex: none;
+    }
+
+    .hero-stats {
+        grid-template-columns: 1fr;
+    }
+}

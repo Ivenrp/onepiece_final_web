@@ -91,4 +91,36 @@ class AuthService {
         // Clear token after use
         unset($_SESSION['reset_token']);
     }
+
+    public function changePassword(int $userId, string $currentPassword, string $newPassword, string $confirmPassword): void {
+        if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
+            throw new AppException("All password fields are required.");
+        }
+
+        if (strlen($newPassword) < 6) {
+            throw new AppException("New password must be at least 6 characters.");
+        }
+
+        if ($newPassword !== $confirmPassword) {
+            throw new AppException("Password confirmation does not match.");
+        }
+
+        $user = $this->userRepository->findById($userId);
+        if (!$user) {
+            throw new AppException("User account was not found.");
+        }
+
+        if (!password_verify($currentPassword, $user->password)) {
+            throw new AppException("Current password is incorrect.");
+        }
+
+        if (password_verify($newPassword, $user->password)) {
+            throw new AppException("New password must be different from current password.");
+        }
+
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+        if (!$this->userRepository->updatePasswordById($userId, $hashedPassword)) {
+            throw new AppException("Failed to update password.");
+        }
+    }
 }

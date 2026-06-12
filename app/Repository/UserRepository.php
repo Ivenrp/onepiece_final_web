@@ -38,6 +38,19 @@ class UserRepository {
         return null;
     }
 
+    public function findById(int $id): ?User {
+        $query = "SELECT * FROM users WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $row = $stmt->fetch();
+        if ($row) {
+            return $this->mapRowToUser($row);
+        }
+        return null;
+    }
+
     public function save(User $user): bool {
         $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
         $stmt = $this->db->prepare($query);
@@ -54,6 +67,14 @@ class UserRepository {
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':password', $hashedPassword);
         $stmt->bindParam(':email', $email);
+        return $stmt->execute();
+    }
+
+    public function updatePasswordById(int $id, string $hashedPassword): bool {
+        $query = "UPDATE users SET password = :password WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
 

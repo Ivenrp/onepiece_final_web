@@ -13,8 +13,27 @@ class CharacterController {
     }
 
     public function index() {
-        $characters = $this->service->getAllCharacters();
+        $filters = [
+            'search' => $_GET['search'] ?? '',
+            'fruit' => $_GET['fruit'] ?? '',
+            'sort' => $_GET['sort'] ?? ''
+        ];
+        
+        $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+        
+        $data = $this->service->getCharactersWithPagination($filters, $page, 12);
+        
+        $characters = $data['characters'];
+        $totalPages = $data['totalPages'];
+        $currentPage = $data['currentPage'];
+        $totalItems = $data['totalItems'];
+
         require_once __DIR__ . '/../View/characters/index.php';
+    }
+
+    public function dashboard() {
+        $characters = $this->service->getAllCharacters();
+        require_once __DIR__ . '/../View/admin/dashboard.php';
     }
 
     public function show() {
@@ -24,6 +43,18 @@ class CharacterController {
             
             $character = $this->service->getCharacterById((int)$id);
             require_once __DIR__ . '/../View/characters/show.php';
+        } catch (AppException $e) {
+            $this->redirectWithError($e->getMessage());
+        }
+    }
+
+    public function adminShow() {
+        try {
+            $id = $_GET['id'] ?? null;
+            if (!$id) throw new AppException("ID is missing.");
+            
+            $character = $this->service->getCharacterById((int)$id);
+            require_once __DIR__ . '/../View/admin/show.php';
         } catch (AppException $e) {
             $this->redirectWithError($e->getMessage());
         }
@@ -39,7 +70,7 @@ class CharacterController {
                 throw new AppException("Invalid request method.");
             }
             $this->service->createCharacter($_POST, $_FILES);
-            header("Location: /characters");
+            header("Location: /dashboard");
             exit;
         } catch (AppException $e) {
             $error = $e->getMessage();
@@ -68,7 +99,7 @@ class CharacterController {
             if (!$id) throw new AppException("ID is missing.");
 
             $this->service->updateCharacter((int)$id, $_POST, $_FILES);
-            header("Location: /characters");
+            header("Location: /dashboard");
             exit;
         } catch (AppException $e) {
             $error = $e->getMessage();
@@ -90,7 +121,7 @@ class CharacterController {
             if (!$id) throw new AppException("ID is missing.");
 
             $this->service->deleteCharacter((int)$id);
-            header("Location: /characters");
+            header("Location: /dashboard");
             exit;
         } catch (AppException $e) {
             $this->redirectWithError($e->getMessage());
@@ -99,7 +130,7 @@ class CharacterController {
 
     private function redirectWithError(string $message) {
         // A simple way to pass error without session for this simple app
-        header("Location: /characters?error=" . urlencode($message));
+        header("Location: /dashboard?error=" . urlencode($message));
         exit;
     }
 }

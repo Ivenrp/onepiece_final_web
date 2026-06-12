@@ -23,6 +23,20 @@ class CharacterService
         return $this->repository->findAll();
     }
 
+    public function getCharactersWithPagination(array $filters, int $page, int $perPage = 12): array {
+        $offset = ($page - 1) * $perPage;
+        
+        $totalItems = $this->repository->countWithFilters($filters);
+        $characters = $this->repository->findWithFilters($filters, $perPage, $offset);
+        
+        return [
+            'characters' => $characters,
+            'totalItems' => $totalItems,
+            'totalPages' => ceil($totalItems / $perPage),
+            'currentPage' => $page
+        ];
+    }
+
     public function getCharacterById(int $id): Character
     {
         $character = $this->repository->findById($id);
@@ -50,6 +64,7 @@ class CharacterService
             $photoUrl,
             $data['general_information'] ?? null
         );
+        $character->role = $data['role'] ?? 'Unknown';
 
         $this->repository->beginTransaction();
         try {
@@ -93,6 +108,7 @@ class CharacterService
             $photoUrl,
             $data['general_information'] ?? null
         );
+        $character->role = $data['role'] ?? 'Unknown';
         $character->id = $id;
 
         $this->repository->beginTransaction();
