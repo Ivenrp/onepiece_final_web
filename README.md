@@ -28,77 +28,9 @@ Project ini adalah website dinamis berbasis PHP yang menampilkan konten seputar 
 - Validasi form
 - Session management
 
-## Halaman
-
-- Login
-- Registrasi
-- Dashboard
-- 
--
--
-
-## Struktur Folder
-
-```
-onepiece_final_web/
-├── app/
-│   ├── Config/
-│   │   ├── App.php
-│   │   └── Database.php
-│   ├── Controller/
-│   │   ├── AuthController.php
-│   │   ├── CharacterController.php
-│   │   └── HomeController.php
-│   ├── Domain/
-│   │   ├── Character.php
-│   │   ├── CharacterAbility.php
-│   │   ├── CharacterArc.php
-│   │   └── User.php
-│   ├── Exception/
-│   │   └── AppException.php
-│   ├── Repository/
-│   │   ├── CharacterRepository.php
-│   │   └── UserRepository.php
-│   ├── Service/
-│   │   ├── AuthService.php
-│   │   └── CharacterService.php
-│   └── View/
-│       ├── auth/
-│       │   ├── forgot_password.php
-│       │   ├── login.php
-│       │   ├── register.php
-│       │   └── reset_password.php
-│       ├── characters/
-│       │   ├── create.php
-│       │   ├── edit.php
-│       │   ├── index.php
-│       │   └── show.php
-│       ├── home/
-│       │   ├── grandline.php
-│       │   ├── landing.php
-│       │   └── profile.php
-│       └── layout/
-│           ├── footer.php
-│           └── header.php
-├── config/
-│   └── database.sql
-├── public/
-│   ├── css/
-│   │   ├── auth.css
-│   │   └── style.css
-│   ├── images/
-│   │   ├── backgrounds/
-│   │   └── long-logo.png
-│   ├── js/
-│   │   └── main.js
-│   ├── uploads/
-│   └── index.php
-└── autoload.php
-```
-
 ## Desain UI/UX
 
-Link Figma: 
+Link Figma: https://www.figma.com/design/OEDpNp7VF496dKa65ykzRp/one-piece?node-id=1-501&t=H1PGxDTCsBEdQFOs-1
 
 ## Hosting
 
