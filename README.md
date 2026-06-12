@@ -6,7 +6,7 @@ Website bertema One Piece untuk tugas Responsi Praktikum Pemrograman Web 2026.
 
 | Nama | NIM | Role |
 |------|-----|------|
-| Fachriel yoga wicaksono | H1H0240 | UI/UX Designer |
+| Fachriel yoga wicaksono | H1H024042 | UI/UX Designer |
 | Alma Maida Wirastuti | H1H024021 | Frontend Developer |
 | Iven Rival Pangestu | H1H024013 | Backend Developer |
 
